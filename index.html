@@ -448,7 +448,7 @@
     <!-- SUBTLE FLICKERING BULB GLOW IN TOP LEFT -->
     <div class="flickering-bulb-glow"></div>
 
-    <!-- 6 FAMOUS QUOTES -->
+    <!-- 6 FAMOUS QUOTES WRITTEN DIRECTLY ONTO THE BACKGROUND WALL -->
     <aside class="wall-scribble scribble-1">
         "there is a loneliness in this world so great that you can see it in the slow movement of the hands of a clock..."
         <span class="quote-author">— Charles Bukowski</span>
@@ -479,6 +479,14 @@
         <span class="quote-author">— Edgar Allan Poe</span>
     </aside>
 
+    <!-- MUTE/UNMUTE BUTTON -->
+    <button id="muteBtn" class="audio-toggle-btn">
+        <span id="muteIcon">🔊</span>
+        <span id="muteText">Audio</span>
+    </button>
+
+    <audio id="bgAudio" style="display: none;"></audio>
+
     <div class="container">
         <!-- HEADER -->
         <div class="header-wrapper">
@@ -501,15 +509,19 @@
                         <img src="./bvard.png" alt="The Boulevard" class="location-tag-logo"> The Boulevard • Wigan
                     </div>
 
+                    <!-- RESTORED COMPLETE NAVIGATION MENU -->
                     <nav id="mainNav">
                         <a href="#home" class="active-link" onclick="showSection('home', this)">Home</a>
                         <a href="#poets" onclick="showSection('poets', this)">Featured Poets</a>
+                        <a href="#media" onclick="showSection('media', this)">Media</a>
+                        <a href="#bios" onclick="showSection('bios', this)">Bios</a>
+                        <a href="#forum" onclick="showSection('forum', this)">Forum</a>
                     </nav>
                 </div>
             </header>
         </div>
 
-        <!-- HOME / WELCOME -->
+        <!-- HOME / WELCOME SECTION -->
         <section id="home" class="content-area active-section">
             <h2>Welcome to the Cellar</h2>
             <div class="welcome-card">
@@ -530,11 +542,11 @@
             </div>
         </section>
 
-        <!-- FEATURED POETS SECTION -->
+        <!-- FEATURED POETS SECTION (WITH SUBMISSION FORM & SUPABASE GRID) -->
         <section id="poets" class="content-area">
             <h2>Featured Poets & Bios</h2>
             
-            <!-- ADD POET FORM (Kept separate so it never disappears) -->
+            <!-- ADD POET FORM -->
             <form class="custom-form" id="poetForm">
                 <h3 style="font-family: 'Playfair Display', serif; color: #f0e6d2; margin-bottom: 15px; font-size: 1.1rem;">Add Poet Profile</h3>
                 <div class="form-group">
@@ -556,9 +568,31 @@
                 <button type="submit">Publish Bio</button>
             </form>
 
-            <!-- POETS GRID (Only cards populate here, leaving the form untouched) -->
+            <!-- POETS GRID -->
             <div class="poets-grid" id="poetsGrid">
                 <!-- Dynamic poets populate here -->
+            </div>
+        </section>
+
+        <!-- PLACEHOLDER SECTIONS FOR OTHER MENU ITEMS -->
+        <section id="media" class="content-area">
+            <h2>Cellar Media & Recordings</h2>
+            <div class="welcome-card">
+                <p class="welcome-text">Audio recordings and spoken word clips from recent live sessions at The Click will appear here soon.</p>
+            </div>
+        </section>
+
+        <section id="bios" class="content-area">
+            <h2>Resident Writer Profiles</h2>
+            <div class="welcome-card">
+                <p class="welcome-text">Deep-dive profiles on regular performers and guest hosts.</p>
+            </div>
+        </section>
+
+        <section id="forum" class="content-area">
+            <h2>The Cellar Board & Discussion</h2>
+            <div class="welcome-card">
+                <p class="welcome-text">Leave thoughts, verses, and community notes.</p>
             </div>
         </section>
 
@@ -581,7 +615,6 @@
         }
 
         // --- SUPABASE INTEGRATION ---
-        // Replace these placeholder strings with your actual keys from Supabase Dashboard > Settings > API
         const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
         const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
         
