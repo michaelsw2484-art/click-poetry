@@ -448,7 +448,7 @@
     <!-- SUBTLE FLICKERING BULB GLOW IN TOP LEFT -->
     <div class="flickering-bulb-glow"></div>
 
-    <!-- 6 FAMOUS QUOTES WRITTEN DIRECTLY ONTO THE BACKGROUND WALL -->
+    <!-- 6 FAMOUS QUOTES -->
     <aside class="wall-scribble scribble-1">
         "there is a loneliness in this world so great that you can see it in the slow movement of the hands of a clock..."
         <span class="quote-author">— Charles Bukowski</span>
@@ -478,14 +478,6 @@
         "All that we see or seem is but a dream within a dream."
         <span class="quote-author">— Edgar Allan Poe</span>
     </aside>
-
-    <!-- MUTE/UNMUTE BUTTON -->
-    <button id="muteBtn" class="audio-toggle-btn">
-        <span id="muteIcon">🔊</span>
-        <span id="muteText">Audio</span>
-    </button>
-
-    <audio id="bgAudio" style="display: none;"></audio>
 
     <div class="container">
         <!-- HEADER -->
@@ -538,11 +530,11 @@
             </div>
         </section>
 
-        <!-- FEATURED POETS SECTION (WITH FORM & DATABASE GRID) -->
+        <!-- FEATURED POETS SECTION -->
         <section id="poets" class="content-area">
             <h2>Featured Poets & Bios</h2>
             
-            <!-- ADD POET FORM (Input areas will render here) -->
+            <!-- ADD POET FORM (Kept separate so it never disappears) -->
             <form class="custom-form" id="poetForm">
                 <h3 style="font-family: 'Playfair Display', serif; color: #f0e6d2; margin-bottom: 15px; font-size: 1.1rem;">Add Poet Profile</h3>
                 <div class="form-group">
@@ -564,7 +556,7 @@
                 <button type="submit">Publish Bio</button>
             </form>
 
-            <!-- POETS GRID (Populates dynamically from Supabase) -->
+            <!-- POETS GRID (Only cards populate here, leaving the form untouched) -->
             <div class="poets-grid" id="poetsGrid">
                 <!-- Dynamic poets populate here -->
             </div>
@@ -606,22 +598,18 @@
                 return;
             }
 
-            // Keep the form element intact, clear only the grid results container items
-            // Re-render the cards dynamically
-            const cardsHtml = data && data.length > 0 
-                ? data.map(poet => `
+            if (data && data.length > 0) {
+                grid.innerHTML = data.map(poet => `
                     <div class="poet-card">
                         <img src="${poet.avatar || 'https://via.placeholder.com/110'}" alt="${poet.name}" class="poet-avatar">
                         <h3 class="poet-name">${poet.name}</h3>
                         <span class="poet-style">${poet.style || 'Poet'}</span>
                         <p class="poet-bio">${poet.bio}</p>
                     </div>
-                `).join('')
-                : '<p style="color: #b8ada1; grid-column: 1/-1;">No poets added to the cellar yet. Be the first!</p>';
-
-            // Keep form, update grid content
-            const existingForm = document.getElementById('poetForm').outerHTML;
-            grid.innerHTML = cardsHtml;
+                `).join('');
+            } else {
+                grid.innerHTML = '<p style="color: #b8ada1; grid-column: 1/-1;">No poets added to the cellar yet. Be the first!</p>';
+            }
         }
 
         // Handle Form Submission to Supabase
