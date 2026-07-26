@@ -9,6 +9,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Cinzel+Decorative:wght@700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Homemade+Apple&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Reenie+Beanie&display=swap" rel="stylesheet">
     
+    <!-- Supabase JavaScript SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <style>
         /* --- BASE STYLES & ATMOSPHERE --- */
         :root {
@@ -153,9 +156,7 @@
             box-shadow: 0 0 12px rgba(217, 119, 36, 0.6);
         }
 
-        /* =========================================================
-            HIGHLY TRANSPARENT (~85%), DIRTY & REALISTIC TORN PAPER HEADER
-            ========================================================= */
+        /* --- HEADER --- */
         .header-wrapper {
             filter: 
                 drop-shadow(0px 12px 18px rgba(0, 0, 0, 0.95))
@@ -167,14 +168,12 @@
 
         header {
             background-color: rgba(175, 155, 128, 0.15);
-            
             background-image: 
                 radial-gradient(ellipse at center, transparent 35%, rgba(15, 8, 3, 0.55) 100%),
                 radial-gradient(circle at 20% 30%, rgba(55, 32, 14, 0.25) 0%, transparent 18%),
                 radial-gradient(circle at 82% 70%, rgba(35, 20, 10, 0.3) 0%, transparent 25%),
                 repeating-radial-gradient(circle at 50% 50%, rgba(0,0,0,0.06) 0, rgba(0,0,0,0.06) 1px, transparent 1px, transparent 4px);
             background-size: 100% 100%, 100% 100%, 100% 100%, 5px 5px;
-            
             clip-path: polygon(
                 0% 3.2%, 2.5% 0.8%, 5% 3.8%, 8.5% 0.2%, 12% 2.8%, 15.5% 0.6%, 19% 3.5%, 23% 0.1%, 
                 27.5% 2.9%, 31% 0.5%, 35% 3.2%, 39% 0.3%, 43.5% 2.5%, 48% 0.1%, 52.5% 3.6%, 57% 0.8%, 
@@ -185,7 +184,6 @@
                 37.5% 96.4%, 33% 99.8%, 28.5% 96.1%, 24% 99.5%, 19.5% 96.7%, 15% 99.8%, 10.5% 96.3%, 
                 6% 99.6%, 2.5% 96.8%, 0% 99.1%
             );
-            
             padding: 18px 14px;
             position: relative;
             backdrop-filter: blur(2px) contrast(110%) sepia(15%);
@@ -225,7 +223,6 @@
             line-height: 1.1;
         }
 
-        /* --- STYLES FOR THE MICROPHONE-IN-LOGO DESIGN --- */
         .logo-mic {
             display: inline-flex;
             flex-direction: column;
@@ -426,98 +423,6 @@
         .location-details h3 { font-family: 'Playfair Display', serif; color: #f0e6d2; font-size: 1.2rem; margin-bottom: 4px; }
         .location-details p { font-size: 0.88rem; color: var(--amber-glow); }
 
-        .info-boxes { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 25px; }
-        .info-box { background: rgba(10, 8, 7, 0.6); border: 1px solid #33261c; padding: 20px; }
-        .info-box h3 { font-family: 'Playfair Display', serif; color: var(--amber-glow); margin-bottom: 10px; font-size: 1.1rem; }
-        .info-box p { font-size: 0.85rem; color: #a3988e; }
-
-        /* --- EVENTS --- */
-        .events-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
-        .event-card { background: rgba(26, 20, 18, 0.85); border: 1px solid rgba(217, 119, 36, 0.3); padding: 20px; box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 5px 15px rgba(0,0,0,0.7); backdrop-filter: blur(4px); }
-        .event-date { background: var(--accent-red); color: #f0e6d2; font-size: 0.75rem; font-weight: bold; padding: 3px 8px; display: inline-block; text-transform: uppercase; margin-bottom: 12px; }
-        .event-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #fff; margin-bottom: 8px; }
-        .event-desc { font-size: 0.88rem; color: #a3988e; margin-bottom: 15px; }
-
-        /* --- DEDICATED BOOKING SECTION STYLES --- */
-        .booking-section-card {
-            background: rgba(21, 17, 14, 0.92);
-            border: 1px solid var(--amber-glow);
-            padding: 30px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
-            backdrop-filter: blur(5px);
-            margin-bottom: 30px;
-        }
-        .booking-section-card h3 {
-            font-family: 'Playfair Display', serif;
-            color: #f0e6d2;
-            font-size: 1.4rem;
-            margin-bottom: 10px;
-            border-bottom: 1px dashed rgba(217, 119, 36, 0.3);
-            padding-bottom: 8px;
-        }
-        .slots-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 12px;
-            margin: 20px 0;
-            max-height: 250px;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
-        .slot-btn {
-            background: rgba(14, 11, 9, 0.9);
-            border: 1px solid #4a3423;
-            color: #d1c7bd;
-            padding: 12px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            text-align: center;
-            font-family: 'Courier Prime', monospace;
-            transition: all 0.2s ease;
-        }
-        .slot-btn:hover {
-            border-color: var(--amber-glow);
-            background: rgba(217, 119, 36, 0.2);
-            color: #fff;
-        }
-        .slot-btn.selected {
-            background: var(--amber-glow);
-            color: #000;
-            font-weight: bold;
-            border-color: #fff;
-        }
-        .my-bookings-box {
-            background: rgba(10, 8, 7, 0.9);
-            border: 1px dashed rgba(217, 119, 36, 0.4);
-            padding: 18px;
-            margin-top: 25px;
-            font-size: 0.9rem;
-        }
-        .my-bookings-box h4 {
-            color: var(--amber-glow);
-            margin-bottom: 10px;
-            font-size: 0.95rem;
-            text-transform: uppercase;
-        }
-        .booked-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255,255,255,0.03);
-            padding: 8px 12px;
-            margin-top: 6px;
-            font-size: 0.85rem;
-        }
-        .cancel-slot-btn {
-            background: var(--accent-red);
-            color: #fff;
-            border: none;
-            padding: 4px 10px;
-            font-size: 0.75rem;
-            cursor: pointer;
-        }
-        .cancel-slot-btn:hover { background: #9c271e; box-shadow: none; }
-
         /* --- FORMS --- */
         .custom-form { background: rgba(21, 17, 14, 0.88); border: 1px solid #33261c; padding: 25px; margin-bottom: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
         .form-group { margin-bottom: 15px; }
@@ -534,151 +439,6 @@
         .poet-name { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: #f0e6d2; margin-bottom: 4px; }
         .poet-style { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--amber-glow); margin-bottom: 12px; display: block; }
         .poet-bio { font-size: 0.88rem; color: #a3988e; margin-bottom: 15px; text-align: left; }
-        .poet-link { font-size: 0.8rem; color: var(--paper-bg); text-decoration: underline; word-break: break-all; }
-        .poet-link:hover { color: var(--amber-glow); }
-
-        /* --- MEDIA GALLERY --- */
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-        .media-card { background: rgba(24, 19, 17, 0.85); border: 1px solid rgba(217, 119, 36, 0.3); padding: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.8); backdrop-filter: blur(4px); }
-        .media-frame { width: 100%; height: 200px; background: #000; object-fit: cover; border: 1px solid #33261c; display: block; }
-        iframe.media-frame { border: none; }
-        .media-caption { margin-top: 12px; font-size: 0.85rem; color: #c4b9ad; }
-        .media-meta { font-size: 0.75rem; color: var(--amber-glow); margin-top: 4px; display: block; }
-
-        /* --- PARCHMENT BOARD --- */
-        .poems-feed { display: flex; flex-direction: column; gap: 25px; }
-        .poem-card { background-color: var(--paper-bg); color: var(--paper-text); padding: 30px; box-shadow: 3px 3px 15px rgba(0,0,0,0.8), inset 0 0 30px rgba(0,0,0,0.08); transform: rotate(-0.5deg); position: relative; }
-        .poem-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 5px; color: var(--accent-red); }
-        .poem-author { font-size: 0.8rem; font-style: italic; opacity: 0.8; margin-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 5px; }
-        .poem-body { white-space: pre-line; font-size: 0.95rem; margin-bottom: 20px; }
-        
-        /* Vote section inside parchment card */
-        .poem-vote-footer {
-            border-top: 1px dashed rgba(43, 37, 33, 0.25);
-            padding-top: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .vote-btn {
-            background: var(--amber-dim);
-            color: #fff;
-            border: 1px solid #3d2a1c;
-            padding: 6px 14px;
-            font-size: 0.78rem;
-            cursor: pointer;
-            font-family: 'Courier Prime', monospace;
-            text-transform: uppercase;
-            font-weight: bold;
-            transition: all 0.2s;
-        }
-        .vote-btn:hover {
-            background: var(--amber-glow);
-            color: #000;
-        }
-        .vote-count {
-            font-size: 0.82rem;
-            font-weight: bold;
-            color: var(--accent-red);
-        }
-
-        /* --- MONTHLY POLL WIDGET STYLING --- */
-        .monthly-poll-card {
-            background: rgba(21, 17, 14, 0.92);
-            border: 1px solid var(--amber-glow);
-            padding: 25px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
-            backdrop-filter: blur(5px);
-            margin-bottom: 30px;
-        }
-        .monthly-poll-card h3 {
-            font-family: 'Playfair Display', serif;
-            color: #f0e6d2;
-            font-size: 1.3rem;
-            margin-bottom: 8px;
-            border-bottom: 1px dashed rgba(217, 119, 36, 0.3);
-            padding-bottom: 8px;
-        }
-        .monthly-poll-subtitle {
-            font-size: 0.82rem;
-            color: #b8ada1;
-            margin-bottom: 18px;
-        }
-        .poll-options-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .poll-option-row {
-            background: rgba(10, 8, 7, 0.85);
-            border: 1px solid #33261c;
-            padding: 12px 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .poll-option-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.88rem;
-        }
-        .poll-option-title {
-            color: #f0e6d2;
-            font-family: 'Playfair Display', serif;
-            font-weight: bold;
-        }
-        .poll-vote-count {
-            color: var(--amber-glow);
-            font-size: 0.8rem;
-        }
-        .poll-bar-container {
-            width: 100%;
-            height: 6px;
-            background: rgba(255,255,255,0.06);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        .poll-bar-fill {
-            height: 100%;
-            background: var(--amber-glow);
-            width: 0%;
-            transition: width 0.4s ease;
-        }
-        .poll-action-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 4px;
-        }
-        .poll-cast-btn {
-            background: var(--amber-dim);
-            color: #fff;
-            border: none;
-            padding: 4px 10px;
-            font-size: 0.72rem;
-            cursor: pointer;
-            text-transform: uppercase;
-        }
-        .poll-cast-btn:hover {
-            background: var(--amber-glow);
-            color: #000;
-        }
-
-        /* --- FORUM --- */
-        .forum-list { display: flex; flex-direction: column; gap: 20px; }
-        .forum-thread { background: var(--forum-card); border: 1px solid rgba(217, 119, 36, 0.25); padding: 20px; backdrop-filter: blur(4px); }
-        .thread-header { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; }
-        .thread-category { font-size: 0.7rem; background: var(--amber-dim); color: #fff; padding: 2px 8px; text-transform: uppercase; }
-        .thread-author { font-size: 0.8rem; color: #8c8278; }
-        .thread-title { font-size: 1.2rem; color: #f0e6d2; margin-bottom: 8px; }
-        .thread-body { font-size: 0.9rem; color: #b8ada1; margin-bottom: 15px; }
-        .replies-container { margin-top: 15px; padding-left: 15px; border-left: 2px solid var(--amber-dim); display: flex; flex-direction: column; gap: 10px; }
-        .reply-item { font-size: 0.85rem; background: rgba(0,0,0,0.4); padding: 8px 12px; }
-        .reply-author { color: var(--amber-glow); font-size: 0.75rem; font-weight: bold; }
-        .reply-form { display: flex; gap: 10px; margin-top: 15px; }
-        .reply-form input { padding: 8px; font-size: 0.85rem; }
-        .reply-form button { padding: 8px 16px; font-size: 0.8rem; }
 
         footer { text-align: center; padding: 40px 0; font-size: 0.75rem; opacity: 0.7; border-top: 1px solid rgba(217, 119, 36, 0.2); text-shadow: 1px 1px 2px #000; }
     </style>
@@ -728,13 +488,13 @@
     <audio id="bgAudio" style="display: none;"></audio>
 
     <div class="container">
-        <!-- HIGHLY TRANSPARENT (~85%), DIRTY & REALISTIC TORN PAPER HEADER -->
+        <!-- HEADER -->
         <div class="header-wrapper">
             <header>
                 <div class="vintage-label-frame">
                     <div class="logo-title">
                         The Cl
-                        <span class="logo-mic" title="Microphone I">
+                        <span class="logo-mic" title="Microphone">
                             <span class="mic-head"></span>
                             <span class="mic-stand"></span>
                             <span class="mic-rod"></span>
@@ -751,12 +511,7 @@
 
                     <nav id="mainNav">
                         <a href="#home" class="active-link" onclick="showSection('home', this)">Home</a>
-                        <a href="#events" onclick="showSection('events', this)">Gatherings</a>
-                        <a href="#booking" onclick="showSection('booking', this)">Tuesday Slots</a>
                         <a href="#poets" onclick="showSection('poets', this)">Featured Poets</a>
-                        <a href="#gallery" onclick="showSection('gallery', this)">Past Nights</a>
-                        <a href="#poems" onclick="showSection('poems', this)">Verses</a>
-                        <a href="#forum" onclick="showSection('forum', this)">Cellar Forum</a>
                     </nav>
                 </div>
             </header>
@@ -777,37 +532,119 @@
                     <img src="./bvard.png" alt="The Boulevard Wigan Logo" class="venue-logo-banner">
                     <div class="location-details">
                         <h3>Venue Location</h3>
-                        <p>The Boulevard, 29 Wallgate, Wigan WN1 1LD</p>
-                    </div>
-                </div>
-
-                <div class="info-boxes">
-                    <div class="info-box">
-                        <h3>Open Mic Nights</h3>
-                        <p>Every Tuesday evening from 7:30 PM. Grab a slot in advance or sign up at the door.</p>
-                    </div>
-                    <div class="info-box">
-                        <h3>The Atmosphere</h3>
-                        <p>Low ceilings, dim amber light, cheap drinks, and a community that listens deeply.</p>
+                        <p>The Boulevard, Wallgate, Wigan</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- FOOTER -->
+        <!-- FEATURED POETS SECTION (WITH FORM & DATABASE GRID) -->
+        <section id="poets" class="content-area">
+            <h2>Featured Poets & Bios</h2>
+            
+            <!-- ADD POET FORM (Input areas will render here) -->
+            <form class="custom-form" id="poetForm">
+                <h3 style="font-family: 'Playfair Display', serif; color: #f0e6d2; margin-bottom: 15px; font-size: 1.1rem;">Add Poet Profile</h3>
+                <div class="form-group">
+                    <label>Poet Name</label>
+                    <input type="text" id="poetNameInput" required placeholder="e.g. Arthur Pendelton">
+                </div>
+                <div class="form-group">
+                    <label>Poetic Style / Genre</label>
+                    <input type="text" id="poetStyleInput" required placeholder="e.g. Beat Verse & Spoken Word">
+                </div>
+                <div class="form-group">
+                    <label>Short Biography</label>
+                    <textarea id="poetBioInput" rows="3" required placeholder="A brief background..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Avatar Image URL</label>
+                    <input type="url" id="poetAvatarInput" placeholder="https://example.com/image.jpg">
+                </div>
+                <button type="submit">Publish Bio</button>
+            </form>
+
+            <!-- POETS GRID (Populates dynamically from Supabase) -->
+            <div class="poets-grid" id="poetsGrid">
+                <!-- Dynamic poets populate here -->
+            </div>
+        </section>
+
         <footer>
-            <p>&copy; The Click. Hosted at The Boulevard, Wigan. All rights reserved.</p>
+            <p>&copy; The Click. Hosted via GitHub Pages & Supabase.</p>
         </footer>
     </div>
 
     <script>
+        // --- NAVIGATION TAB SWITCHING LOGIC ---
         function showSection(sectionId, element) {
-            document.querySelectorAll('.content-area').forEach(sec => sec.classList.remove('active-section'));
+            document.querySelectorAll('.content-area').forEach(sec => {
+                sec.classList.remove('active-section');
+            });
+            document.querySelectorAll('nav a').forEach(nav => {
+                nav.classList.remove('active-link');
+            });
             document.getElementById(sectionId).classList.add('active-section');
-            document.querySelectorAll('nav a').forEach(nav => nav.classList.remove('active-link'));
-            element.classList.add('active-link');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if(element) element.classList.add('active-link');
         }
+
+        // --- SUPABASE INTEGRATION ---
+        // Replace these placeholder strings with your actual keys from Supabase Dashboard > Settings > API
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
+        
+        const { createClient } = supabase;
+        const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Fetch and display poets from the Supabase 'poets' table
+        async function loadPoets() {
+            const { data, error } = await db.from('poets').select('*');
+            const grid = document.getElementById('poetsGrid');
+            
+            if (error) {
+                console.error('Error fetching poets:', error);
+                return;
+            }
+
+            // Keep the form element intact, clear only the grid results container items
+            // Re-render the cards dynamically
+            const cardsHtml = data && data.length > 0 
+                ? data.map(poet => `
+                    <div class="poet-card">
+                        <img src="${poet.avatar || 'https://via.placeholder.com/110'}" alt="${poet.name}" class="poet-avatar">
+                        <h3 class="poet-name">${poet.name}</h3>
+                        <span class="poet-style">${poet.style || 'Poet'}</span>
+                        <p class="poet-bio">${poet.bio}</p>
+                    </div>
+                `).join('')
+                : '<p style="color: #b8ada1; grid-column: 1/-1;">No poets added to the cellar yet. Be the first!</p>';
+
+            // Keep form, update grid content
+            const existingForm = document.getElementById('poetForm').outerHTML;
+            grid.innerHTML = cardsHtml;
+        }
+
+        // Handle Form Submission to Supabase
+        document.getElementById('poetForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('poetNameInput').value;
+            const style = document.getElementById('poetStyleInput').value;
+            const bio = document.getElementById('poetBioInput').value;
+            const avatar = document.getElementById('poetAvatarInput').value;
+
+            const { error } = await db.from('poets').insert([{ name, style, bio, avatar }]);
+
+            if (error) {
+                alert('Error saving poet: ' + error.message);
+            } else {
+                document.getElementById('poetForm').reset();
+                loadPoets(); // Refresh the list automatically
+            }
+        });
+
+        // Initialize data loading on page start
+        loadPoets();
     </script>
 </body>
 </html>
