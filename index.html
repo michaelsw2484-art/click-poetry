@@ -509,10 +509,11 @@
                         <img src="./bvard.png" alt="The Boulevard" class="location-tag-logo"> The Boulevard • Wigan
                     </div>
 
-                    <!-- RESTORED COMPLETE NAVIGATION MENU -->
+                    <!-- COMPLETE NAVIGATION MENU INCLUDING DEDICATED ADD POET TAB -->
                     <nav id="mainNav">
                         <a href="#home" class="active-link" onclick="showSection('home', this)">Home</a>
                         <a href="#poets" onclick="showSection('poets', this)">Featured Poets</a>
+                        <a href="#addpoet" onclick="showSection('addpoet', this)">Add Poet</a>
                         <a href="#media" onclick="showSection('media', this)">Media</a>
                         <a href="#bios" onclick="showSection('bios', this)">Bios</a>
                         <a href="#forum" onclick="showSection('forum', this)">Forum</a>
@@ -542,13 +543,20 @@
             </div>
         </section>
 
-        <!-- FEATURED POETS SECTION (WITH SUBMISSION FORM & SUPABASE GRID) -->
+        <!-- FEATURED POETS GRID SECTION -->
         <section id="poets" class="content-area">
             <h2>Featured Poets & Bios</h2>
-            
-            <!-- ADD POET FORM -->
+            <!-- POETS GRID -->
+            <div class="poets-grid" id="poetsGrid">
+                <!-- Dynamic poets populate here -->
+            </div>
+        </section>
+
+        <!-- DEDICATED SUBMISSION FORM SECTION (Guaranteed to stay visible when clicked) -->
+        <section id="addpoet" class="content-area">
+            <h2>Contribute a Poet Profile</h2>
             <form class="custom-form" id="poetForm">
-                <h3 style="font-family: 'Playfair Display', serif; color: #f0e6d2; margin-bottom: 15px; font-size: 1.1rem;">Add Poet Profile</h3>
+                <h3 style="font-family: 'Playfair Display', serif; color: #f0e6d2; margin-bottom: 15px; font-size: 1.1rem;">New Poet Details</h3>
                 <div class="form-group">
                     <label>Poet Name</label>
                     <input type="text" id="poetNameInput" required placeholder="e.g. Arthur Pendelton">
@@ -567,14 +575,9 @@
                 </div>
                 <button type="submit">Publish Bio</button>
             </form>
-
-            <!-- POETS GRID -->
-            <div class="poets-grid" id="poetsGrid">
-                <!-- Dynamic poets populate here -->
-            </div>
         </section>
 
-        <!-- PLACEHOLDER SECTIONS FOR OTHER MENU ITEMS -->
+        <!-- OTHER SECTIONS -->
         <section id="media" class="content-area">
             <h2>Cellar Media & Recordings</h2>
             <div class="welcome-card">
@@ -660,6 +663,8 @@
                 alert('Error saving poet: ' + error.message);
             } else {
                 document.getElementById('poetForm').reset();
+                alert('Poet published successfully!');
+                showSection('poets', document.querySelector('nav a[href="#poets"]'));
                 loadPoets(); // Refresh the list automatically
             }
         });
