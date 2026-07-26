@@ -634,7 +634,7 @@
 
         // --- 2. SUPABASE INITIALIZATION & CONFIGURATION ---
         const SUPABASE_URL = 'https://asyqjxrmjqtyfbkdpxws.supabase.co'; 
-        const SUPABASE_ANON_KEY = 'sb_publishable_D5BhNRpdrwklD9u5LWzKww_hKi3Vguy';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFzeXFqeHJtanF0eWZia2RweHdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUwODg2NDUsImV4cCI6MjEwMDY2NDY0NX0.Rc97bf8pfg6hq0OtjAWqoqLGVNe6I7FpVMK2Y0fbdp8';
 
         let db = null;
         if (typeof supabase !== 'undefined') {
@@ -647,7 +647,7 @@
             if (!grid) return;
 
             if (!db) {
-                grid.innerHTML = '<p style="color: #d97724; grid-column: 1/-1;">⚠️ Supabase client failed to load.</p>';
+                grid.innerHTML = '<p style="color: #d97724; grid-column: 1/-1;">⚠️ Supabase client failed to initialize.</p>';
                 return;
             }
 
@@ -680,7 +680,7 @@
                 e.preventDefault();
 
                 if (!db) {
-                    alert('Supabase client not initialized.');
+                    alert('Supabase client is not initialized.');
                     return;
                 }
 
