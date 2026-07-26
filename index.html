@@ -350,6 +350,7 @@
             border: 1px solid transparent;
             transition: all 0.3s;
             text-shadow: 1px 1px 2px #000;
+            cursor: pointer;
         }
 
         nav a:hover, nav a.active-link {
@@ -509,14 +510,14 @@
                         <img src="./bvard.png" alt="The Boulevard" class="location-tag-logo"> The Boulevard • Wigan
                     </div>
 
-                    <!-- FULL RESTORED NAVIGATION MENU -->
+                    <!-- FULL RESTORED NAVIGATION MENU WITH CLICK HANDLERS -->
                     <nav id="mainNav">
-                        <a href="#home" class="active-link" onclick="showSection('home', this)">Home</a>
-                        <a href="#poets" onclick="showSection('poets', this)">Featured Poets</a>
-                        <a href="#addpoet" onclick="showSection('addpoet', this)">Add Poet</a>
-                        <a href="#media" onclick="showSection('media', this)">Media</a>
-                        <a href="#bios" onclick="showSection('bios', this)">Bios</a>
-                        <a href="#forum" onclick="showSection('forum', this)">Forum</a>
+                        <a data-target="home" class="active-link">Home</a>
+                        <a data-target="poets">Featured Poets</a>
+                        <a data-target="addpoet">Add Poet</a>
+                        <a data-target="media">Media</a>
+                        <a data-target="bios">Bios</a>
+                        <a data-target="forum">Forum</a>
                     </nav>
                 </div>
             </header>
@@ -546,13 +547,12 @@
         <!-- FEATURED POETS GRID SECTION -->
         <section id="poets" class="content-area">
             <h2>Featured Poets & Bios</h2>
-            <!-- POETS GRID -->
             <div class="poets-grid" id="poetsGrid">
                 <!-- Dynamic poets populate here -->
             </div>
         </section>
 
-        <!-- ADD POET SECTION WITH FULL INPUT FIELDS -->
+        <!-- ADD POET SECTION -->
         <section id="addpoet" class="content-area">
             <h2>Contribute a Poet Profile</h2>
             <form class="custom-form" id="poetForm">
@@ -573,7 +573,7 @@
                     <label>Avatar Image URL</label>
                     <input type="url" id="poetAvatarInput" placeholder="https://example.com/image.jpg">
                 </div>
-                <button type="submit">Publish Bio</button>
+                <button type="submit" id="submitBtn">Publish Bio</button>
             </form>
         </section>
 
@@ -607,39 +607,47 @@
     </div>
 
     <script>
-        // --- NAVIGATION TAB SWITCHING LOGIC ---
-        function showSection(sectionId, element) {
-            document.querySelectorAll('.content-area').forEach(sec => {
-                sec.classList.remove('active-section');
-            });
-            document.querySelectorAll('nav a').forEach(nav => {
-                nav.classList.remove('active-link');
-            });
-            const targetSection = document.getElementById(sectionId);
-            if (targetSection) {
-                targetSection.classList.add('active-section');
-            }
-            if (element) {
-                element.classList.add('active-link');
-            }
-        }
+        // --- 1. BULLETPROOF NAVIGATION LOGIC ---
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('data-target');
 
-        // --- SUPABASE INTEGRATION ---
-        const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
-        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
-        
+                // Hide all sections
+                document.querySelectorAll('.content-area').forEach(sec => {
+                    sec.classList.remove('active-section');
+                });
+
+                // Remove active styling from all nav links
+                document.querySelectorAll('nav a').forEach(nav => {
+                    nav.classList.remove('active-link');
+                });
+
+                // Show target section & highlight link
+                const targetSec = document.getElementById(targetId);
+                if (targetSec) {
+                    targetSec.classList.add('active-section');
+                }
+                link.classList.add('active-link');
+            });
+        });
+
+        // --- 2. SUPABASE INITIALIZATION & CONFIGURATION ---
+        const SUPABASE_URL = 'https://asyqjxrmjqtyfbkdpxws.supabase.co'; 
+        const SUPABASE_ANON_KEY = 'sb_publishable_D5BhNRpdrwklD9u5LWzKww_hKi3Vguy';
+
         let db = null;
-        if (typeof supabase !== 'undefined' && SUPABASE_URL !== 'YOUR_SUPABASE_URL_HERE') {
+        if (typeof supabase !== 'undefined') {
             db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         }
 
-        // Fetch and display poets from the Supabase 'poets' table
+        // --- 3. FETCH AND DISPLAY POETS ---
         async function loadPoets() {
             const grid = document.getElementById('poetsGrid');
             if (!grid) return;
 
             if (!db) {
-                grid.innerHTML = '<p style="color: #b8ada1; grid-column: 1/-1;">Supabase credentials not configured yet. Please add your URL and Key in the script.</p>';
+                grid.innerHTML = '<p style="color: #d97724; grid-column: 1/-1;">⚠️ Supabase client failed to load.</p>';
                 return;
             }
 
@@ -647,7 +655,7 @@
             
             if (error) {
                 console.error('Error fetching poets:', error);
-                grid.innerHTML = '<p style="color: #b8ada1; grid-column: 1/-1;">Error loading poets from database.</p>';
+                grid.innerHTML = `<p style="color: #b8ada1; grid-column: 1/-1;">Database error: ${error.message}. Make sure your 'poets' table exists in Supabase.</p>`;
                 return;
             }
 
@@ -665,38 +673,54 @@
             }
         }
 
-        // Handle Form Submission to Supabase safely
+        // --- 4. FORM SUBMISSION LOGIC ---
         const poetForm = document.getElementById('poetForm');
         if (poetForm) {
             poetForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                
+
                 if (!db) {
-                    alert('Please configure your Supabase URL and Key in the script before submitting.');
+                    alert('Supabase client not initialized.');
                     return;
                 }
 
-                const name = document.getElementById('poetNameInput').value;
-                const style = document.getElementById('poetStyleInput').value;
-                const bio = document.getElementById('poetBioInput').value;
-                const avatar = document.getElementById('poetAvatarInput').value;
+                const name = document.getElementById('poetNameInput').value.trim();
+                const style = document.getElementById('poetStyleInput').value.trim();
+                const bio = document.getElementById('poetBioInput').value.trim();
+                const avatar = document.getElementById('poetAvatarInput').value.trim();
 
-                const { error } = await db.from('poets').insert([{ name, style, bio, avatar }]);
+                const submitBtn = document.getElementById('submitBtn');
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Publishing...';
+
+                // Insert into Supabase table named 'poets'
+                const { data, error } = await db
+                    .from('poets')
+                    .insert([{ name, style, bio, avatar }]);
+
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Publish Bio';
 
                 if (error) {
-                    alert('Error saving poet: ' + error.message);
+                    console.error('Supabase insert error:', error);
+                    alert('Failed to save to Supabase: ' + error.message);
                 } else {
                     alert('Poet published successfully!');
                     poetForm.reset();
-                    // Switch back to the Featured Poets tab to view the submission
-                    const poetsNav = document.querySelector('nav a[href="#poets"]');
-                    showSection('poets', poetsNav);
+
+                    // Automatically switch to the "Featured Poets" tab and reload the list
+                    document.querySelectorAll('.content-area').forEach(sec => sec.classList.remove('active-section'));
+                    document.querySelectorAll('nav a').forEach(nav => nav.classList.remove('active-link'));
+                    
+                    document.getElementById('poets').classList.add('active-section');
+                    document.querySelector('nav a[data-target="poets"]').classList.add('active-link');
+
                     loadPoets();
                 }
             });
         }
 
-        // Initialize data loading on page start
+        // Load poets on page load
         loadPoets();
     </script>
 </body>
