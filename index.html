@@ -8,8 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Cinzel+Decorative:wght@700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Homemade+Apple&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Reenie+Beanie&display=swap" rel="stylesheet">
-    <!-- Include Supabase script from CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <style>
         /* --- BASE STYLES & ATMOSPHERE --- */
         :root {
@@ -735,7 +734,7 @@
                 <div class="vintage-label-frame">
                     <div class="logo-title">
                         The Cl
-                        <span class="logo-mic" title="Microphone I">
+                        <span class="logo-mic" title="Microphone">
                             <span class="mic-head"></span>
                             <span class="mic-stand"></span>
                             <span class="mic-rod"></span>
@@ -778,562 +777,483 @@
                     <img src="./bvard.png" alt="The Boulevard Wigan Logo" class="venue-logo-banner">
                     <div class="location-details">
                         <h3>Venue Location</h3>
-                        <p>The Boulevard, 19 Wallgate, Wigan WN1 1LD</p>
+                        <p>The Boulevard Basement, 17-19 Wallgate, Wigan</p>
                     </div>
                 </div>
 
-                <p class="welcome-text">
-                    Whether you come to share your notebook, listen with a pint or an espresso, or simply collaborate with fellow writers in Wigan, you've found your place.
-                </p>
-
                 <div class="info-boxes">
                     <div class="info-box">
-                        <h3>🕯️ Candlelit Open Mic</h3>
-                        <p>5-minute open slots for anyone with a story, rhyme, or monologue. Sign-ups begin 30 minutes before doors open.</p>
+                        <h3>Open Mic Nights</h3>
+                        <p>Every Tuesday evening. Sign-ups begin at 7:00 PM downstairs. First come, first served podium slots.</p>
                     </div>
                     <div class="info-box">
-                        <h3>🎷 Ambient Soundscapes</h3>
-                        <p>Immersive background acoustics, improvisational double bass, and soft soundscapes accompany every performance night.</p>
-                    </div>
-                    <div class="info-box">
-                        <h3>📜 Safe Haven Rules</h3>
-                        <p>Zero pretension, full respect. We listen in quiet attention and support every artist who takes the mic.</p>
+                        <h3>Atmosphere</h3>
+                        <p>Low ceilings, amber bulbs, notebooks clicking open, cheap drinks, and absolute respect for the spoken word.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- UPCOMING EVENTS -->
+        <!-- GATHERINGS / EVENTS -->
         <section id="events" class="content-area">
             <h2>Upcoming Gatherings</h2>
             <div class="events-grid">
                 <div class="event-card">
-                    <span class="event-date">Thu, Oct 24 • 8:00 PM</span>
-                    <h3 class="event-title">Unfinished Drafts</h3>
-                    <p class="event-desc">Live at The Boulevard basement. Bring your rawest, unpolished works. Standard candlelit open mic rules apply. Limit 5 mins per poet.</p>
+                    <span class="event-date">Tuesday • 7:30 PM</span>
+                    <h3 class="event-title">Weekly Cellar Open Mic</h3>
+                    <p class="event-desc">Our signature weekly gathering. Bring 3 poems or up to 5 minutes of spoken word material.</p>
                 </div>
                 <div class="event-card">
-                    <span class="event-date">Tue, Oct 29 • 7:00 PM</span>
-                    <h3 class="event-title">Tuesday Stage Sessions</h3>
-                    <p class="event-desc">Exclusive private recording and green-room prep sessions every Tuesday evening. Head to the <strong>Tuesday Slots</strong> tab in the menu to book your 15-minute time block.</p>
+                    <span class="event-date">First Friday of Month</span>
+                    <h3 class="event-title">Feature Headliner & Jam</h3>
+                    <p class="event-desc">Extended feature set from a visiting regional poet followed by an open floor musical/poetry jam.</p>
                 </div>
             </div>
         </section>
 
-        <!-- DEDICATED TUESDAY 15-MIN SLOT BOOKING SYSTEM (MENU TAB WITH NEW INPUT) -->
+        <!-- TUESDAY SLOTS BOOKING -->
         <section id="booking" class="content-area">
-            <h2>Tuesday 15-Min Slot Bookings</h2>
+            <h2>Reserve a Tuesday Slot</h2>
             <div class="booking-section-card">
-                <h3>Reserve Your Tuesday Time Block</h3>
-                <p style="font-size: 0.9rem; color: #b8ada1; margin-bottom: 20px;">
-                    Each session is exactly <strong>15 minutes</strong>. Provide your performer alias, select your slot, and confirm. Once booked, the option disappears from the active list.
-                </p>
+                <h3>Open Mic Performance Slots</h3>
+                <p class="welcome-text">Select an available timeslot below to secure your spot for our next Tuesday session down in the cellar.</p>
                 
-                <div class="form-group" style="margin-bottom: 20px;">
-                    <label for="bookingPerformerName">Performer / Poet Name *</label>
-                    <input type="text" id="bookingPerformerName" placeholder="e.g. Julian Vance" required style="background: rgba(9, 7, 6, 0.9);">
+                <div class="slots-container" id="slotsContainer">
+                    <!-- Dynamically populated via script -->
                 </div>
 
-                <div class="form-group" style="margin-bottom: 10px;">
-                    <label>Select Available 15-Min Slot (Tuesday):</label>
-                </div>
-                <div id="slotsGrid" class="slots-container">
-                    <!-- Populated dynamically via JavaScript -->
-                </div>
-                
-                <button type="button" id="confirmBookingBtn" style="width: 100%; margin-top: 15px; font-size: 0.9rem;">Confirm Selected Slot Reservation</button>
-                
                 <div class="my-bookings-box">
-                    <h4>Your Reserved Tuesday Slots:</h4>
-                    <div id="myBookingsList">
-                        <span style="font-size: 0.85rem; color: #777; font-style: italic;">No slots booked yet.</span>
+                    <h4>Your Reserved Slot</h4>
+                    <div id="myBookedSlotDisplay">
+                        <p style="color: #8c8278; font-style: italic;">No slot currently reserved.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- POETS & BIOS -->
+        <!-- FEATURED POETS -->
         <section id="poets" class="content-area">
-            <h2>Resident Poets & Voices</h2>
-
-            <div class="custom-form">
-                <form id="poetForm">
-                    <div class="form-group">
-                        <label for="poetName">Poet Name / Stage Name</label>
-                        <input type="text" id="poetName" placeholder="e.g. Julian 'The Shade' Vance" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="poetStyle">Poetic Style / Genre</label>
-                        <input type="text" id="poetStyle" placeholder="e.g. Spoken Word • Beat Poetry • Free Verse" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="poetBioText">Short Biography</label>
-                        <textarea id="poetBioText" rows="3" placeholder="Tell us about your writing journey, inspirations, or regular mic nights..." required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="poetPic">Photo URL / File (Optional)</label>
-                        <input type="url" id="poetPic" placeholder="https://example.com/photo.jpg or leave blank for default silhouette">
-                    </div>
-                    <div class="form-group">
-                        <label for="poetLink">Website / Social Handle</label>
-                        <input type="text" id="poetLink" placeholder="e.g. @julian_poet or https://julianverse.com">
-                    </div>
-                    <button type="submit">Add Poet Profile</button>
-                </form>
-            </div>
-
+            <h2>Featured Poets</h2>
             <div class="poets-grid" id="poetsGrid">
-                <article class="poet-card">
-                    <img src="./amy_rose.jpg" alt="Amy Rose" class="poet-avatar">
-                    <h3 class="poet-name">Amy Rose</h3>
-                    <span class="poet-style">Resident Poet • Contemporary Verse</span>
-                    <p class="poet-bio">Resident poet at The Click (The Boulevard, Wigan). Crafting verses on emotion, human connection, and late-night reflections.</p>
-                    <a href="https://www.instagram.com/amy_rose_poetry/" target="_blank" class="poet-link">@amy_rose_poetry</a>
-                </article>
-
-                <article class="poet-card">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80" alt="Poet Avatar" class="poet-avatar">
-                    <h3 class="poet-name">Elias K.</h3>
-                    <span class="poet-style">Spoken Word • Rhythm & Blues</span>
-                    <p class="poet-bio">Ex-jazz pianist turned spoken word artist. Elias blends rhythmic cadence with improvised double bass background score.</p>
-                    <a href="#" class="poet-link">eliaskpoetry.com</a>
-                </article>
+                <!-- Dynamically populated via script -->
             </div>
         </section>
 
-        <!-- GALLERY -->
+        <!-- PAST NIGHTS GALLERY -->
         <section id="gallery" class="content-area">
-            <h2>Past Nights (Archives)</h2>
-
-            <div class="custom-form">
-                <form id="mediaForm">
-                    <div class="form-group">
-                        <label for="mediaCaption">Caption / Event Name</label>
-                        <input type="text" id="mediaCaption" placeholder="e.g. Open Mic Session — Late Night Jazz & Verse" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="mediaDate">Date / Poet Name</label>
-                        <input type="text" id="mediaDate" placeholder="e.g. October 12, 2024 by @Julian" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="mediaFile">Upload Image File OR Paste Video URL</label>
-                        <input type="file" id="mediaFile" accept="image/*">
-                        <input type="url" id="mediaUrl" placeholder="Or paste YouTube / MP4 Video Link..." style="margin-top: 8px;">
-                    </div>
-                    <button type="submit">Upload / Share Media</button>
-                </form>
-            </div>
-
+            <h2>Cellar Archives & Gallery</h2>
             <div class="gallery-grid" id="galleryGrid">
-                <article class="media-card">
-                    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80" alt="Mic performance" class="media-frame">
-                    <p class="media-caption">"Candlelight Soliloquy" — Solo performance under the brick archway at The Boulevard.</p>
-                    <span class="media-meta">Oct 12 Gatherings</span>
-                </article>
-
-                <article class="media-card">
-                    <video class="media-frame" controls poster="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80">
-                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                    </video>
-                    <p class="media-caption">Live reading snippet: "Shadows in the Cellar"</p>
-                    <span class="media-meta">Recorded Oct 05</span>
-                </article>
+                <!-- Dynamically populated via script -->
             </div>
         </section>
 
-        <!-- POETRY BOARD & MONTHLY POLL -->
+        <!-- VERSES / PARCHMENT BOARD -->
         <section id="poems" class="content-area">
-            <h2>The Wall of Verses</h2>
-
-            <!-- MONTHLY POLL WIDGET -->
+            <h2>The Parchment Board</h2>
+            
+            <!-- Monthly Poll Widget -->
             <div class="monthly-poll-card">
-                <h3>Cellar Verse of the Month Poll</h3>
-                <p class="monthly-poll-subtitle">Vote for your favorite pinned verse below to push it to the top of the monthly podium!</p>
+                <h3>Cellar Community Poll</h3>
+                <div class="monthly-poll-subtitle">Which theme should inspire our final session of the month?</div>
                 <div class="poll-options-list" id="pollOptionsList">
-                    <!-- Populated dynamically via JS -->
+                    <!-- Dynamically populated via script -->
                 </div>
             </div>
 
+            <!-- Submit Poem Form -->
             <div class="custom-form">
+                <h3 style="font-family: 'Playfair Display', serif; color: #f0e6d2; margin-bottom: 15px;">Pin a Poem to the Board</h3>
                 <form id="poemForm">
                     <div class="form-group">
-                        <label for="poemTitle">Title of Verse</label>
-                        <input type="text" id="poemTitle" placeholder="e.g. Shadows on Stained Brick" required>
+                        <label for="poemTitleInput">Poem Title</label>
+                        <input type="text" id="poemTitleInput" required placeholder="e.g. Basement Light">
                     </div>
                     <div class="form-group">
-                        <label for="poemAuthor">Poet / Alias</label>
-                        <input type="text" id="poemAuthor" placeholder="e.g. Anonymous or Poet's Name" required>
+                        <label for="poemAuthorInput">Author / Poet Name</label>
+                        <input type="text" id="poemAuthorInput" required placeholder="e.g. Arthur Pendelton">
                     </div>
                     <div class="form-group">
-                        <label for="poemContent">Your Poem</label>
-                        <textarea id="poemContent" rows="4" placeholder="Type your poem here..." required></textarea>
+                        <label for="poemBodyInput">Verses</label>
+                        <textarea id="poemBodyInput" rows="6" required placeholder="Write your verse here..."></textarea>
                     </div>
-                    <button type="submit">Pin to the Wall</button>
+                    <button type="submit">Pin to Board</button>
                 </form>
             </div>
 
+            <!-- Feed of Poems -->
             <div class="poems-feed" id="poemsFeed">
-                <article class="poem-card" data-id="1">
-                    <h3 class="poem-title">Midnight in the Cellar</h3>
-                    <div class="poem-author">by Amy Rose</div>
-                    <p class="poem-body">Smoke in the dim light,
-wax dripping low,
-we trade our clichés,
-for somewhere to go.
-
-The brick holds the echoes,
-the floorboards agree,
-we are all just writers,
-trying to be free.</p>
-                    <div class="poem-vote-footer">
-                        <button type="button" class="vote-btn" onclick="voteVerse(1)">❤️ Applaud / Vote</button>
-                        <span class="vote-count" id="voteCount-1">14 votes</span>
-                    </div>
-                </article>
+                <!-- Dynamically populated via script -->
             </div>
         </section>
 
-        <!-- FORUM -->
+        <!-- CELLAR FORUM -->
         <section id="forum" class="content-area">
-            <h2>Cellar Forum & Discussions</h2>
-
+            <h2>Cellar Forum & Discussion</h2>
+            
             <div class="custom-form">
+                <h3 style="font-family: 'Playfair Display', serif; color: #f0e6d2; margin-bottom: 15px;">Start a New Thread</h3>
                 <form id="threadForm">
                     <div class="form-group">
-                        <label for="threadTitle">Discussion Title</label>
-                        <input type="text" id="threadTitle" placeholder="e.g. Best meter for performance poetry?" required>
+                        <label for="threadTitleInput">Thread Title</label>
+                        <input type="text" id="threadTitleInput" required placeholder="e.g. Rhythm in free verse...">
                     </div>
                     <div class="form-group">
-                        <label for="threadCategory">Category</label>
-                        <select id="threadCategory">
-                            <option value="Craft & Meter">Craft & Meter</option>
-                            <option value="Event Planning">Event Planning</option>
-                            <option value="General Chatter">General Chatter</option>
+                        <label for="threadCategoryInput">Category</label>
+                        <select id="threadCategoryInput">
+                            <option value="Craft">Craft & Writing</option>
+                            <option value="Events">Events & Meetups</option>
+                            <option value="General">General Chatter</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="threadAuthor">Your Name / Alias</label>
-                        <input type="text" id="threadAuthor" placeholder="e.g. Julian" required>
+                        <label for="threadAuthorInput">Your Name</label>
+                        <input type="text" id="threadAuthorInput" required placeholder="e.g. Clara">
                     </div>
                     <div class="form-group">
-                        <label for="threadContent">Message / Topic</label>
-                        <textarea id="threadContent" rows="3" placeholder="Start the conversation..." required></textarea>
+                        <label for="threadBodyInput">Message</label>
+                        <textarea id="threadBodyInput" rows="4" required placeholder="Start the conversation..."></textarea>
                     </div>
-                    <button type="submit">Open Discussion</button>
+                    <button type="submit">Publish Thread</button>
                 </form>
             </div>
 
             <div class="forum-list" id="forumList">
-                <article class="forum-thread">
-                    <div class="thread-header">
-                        <span class="thread-category">Craft & Meter</span>
-                        <span class="thread-author">Posted by Elias K.</span>
-                    </div>
-                    <h3 class="thread-title">Performing without a mic stand — thoughts?</h3>
-                    <p class="thread-body">Does holding the page or moving freely change how the audience connects with vulnerable pieces? Curious what local poets prefer.</p>
-                    
-                    <div class="replies-container">
-                        <div class="reply-item">
-                            <span class="reply-author">Amy Rose:</span>
-                            <p>Definitely holding the physical paper adds a bit of raw authenticity, even if your hands shake a little!</p>
-                        </div>
-                    </div>
-
-                    <form class="reply-form" onsubmit="addReply(event, this)">
-                        <input type="text" placeholder="Write a reply..." required>
-                        <button type="submit">Reply</button>
-                    </form>
-                </article>
+                <!-- Dynamically populated via script -->
             </div>
         </section>
 
         <footer>
-            <p>&copy; 2026 The Click • Hosted at The Boulevard, Wigan. All rights reserved.</p>
+            <p>&copy; The Click • Basement Poetry Lounge at The Boulevard, Wigan. All rights reserved.</p>
         </footer>
     </div>
 
-    <!-- --- JAVASCRIPT LOGIC --- -->
     <script>
-        // Navigation Switching Logic
+        // --- NAVIGATION LOGIC ---
         function showSection(sectionId, element) {
-            const sections = document.querySelectorAll('.content-area');
-            sections.forEach(sec => sec.classList.remove('active-section'));
-
-            const target = document.getElementById(sectionId);
-            if (target) {
-                target.classList.add('active-section');
-            }
-
-            const navLinks = document.querySelectorAll('nav a');
-            navLinks.forEach(link => link.classList.remove('active-link'));
-            if (element) {
+            document.querySelectorAll('.content-area').forEach(sec => sec.classList.remove('active-section'));
+            document.getElementById(sectionId).classList.add('active-section');
+            
+            if(element) {
+                document.querySelectorAll('nav a').forEach(nav => nav.classList.remove('active-link'));
                 element.classList.add('active-link');
             }
-
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Audio Toggle Logic
-        const muteBtn = document.getElementById('muteBtn');
+        // --- AUDIO TOGGLE SIMULATION ---
         const bgAudio = document.getElementById('bgAudio');
-        const muteIcon = document.getElementById('muteIcon');
-        const muteText = document.getElementById('muteText');
-        let isPlaying = false;
-
+        const muteBtn = document.getElementById('muteBtn');
+        let isMuted = true;
         muteBtn.addEventListener('click', () => {
-            if (!isPlaying) {
-                bgAudio.play().catch(() => {});
-                isPlaying = true;
-                muteIcon.textContent = "🔇";
-                muteText.textContent = "Mute";
-            } else {
-                bgAudio.pause();
-                isPlaying = false;
-                muteIcon.textContent = "🔊";
-                muteText.textContent = "Audio";
-            }
+            isMuted = !isMuted;
+            document.getElementById('muteIcon').textContent = isMuted ? '🔊' : '🔇';
+            document.getElementById('muteText').textContent = isMuted ? 'Audio' : 'Muted';
         });
 
-        // --- 15-MINUTE TUESDAY BOOKING SYSTEM LOGIC ---
-        let tuesdaySlots = [
-            "18:00 - 18:15", "18:15 - 18:30", "18:30 - 18:45", "18:45 - 19:00",
-            "19:00 - 19:15", "19:15 - 19:30", "19:30 - 19:45", "19:45 - 20:00",
-            "20:00 - 20:15", "20:15 - 20:30", "20:30 - 20:45", "20:45 - 21:00"
+        // --- TUESDAY SLOTS LOGIC ---
+        const slotsData = [
+            { id: 1, time: '7:15 PM', booked: false },
+            { id: 2, time: '7:30 PM', booked: false },
+            { id: 3, time: '7:45 PM', booked: false },
+            { id: 4, time: '8:00 PM', booked: false },
+            { id: 5, time: '8:15 PM', booked: false },
+            { id: 6, time: '8:30 PM', booked: false },
+            { id: 7, time: '8:45 PM', booked: false },
+            { id: 8, time: '9:00 PM', booked: false }
         ];
-        let bookedSlots = []; 
-        let userBookings = []; 
-        let selectedSlot = null;
+        let userReservedSlot = null;
 
-        function renderTuesdaySlots() {
-            const grid = document.getElementById('slotsGrid');
-            grid.innerHTML = '';
-
-            tuesdaySlots.forEach(slot => {
-                const isBooked = bookedSlots.some(b => b.slot === slot);
-                if (!isBooked) {
-                    const btn = document.createElement('div');
-                    btn.className = 'slot-btn' + (selectedSlot === slot ? ' selected' : '');
-                    btn.textContent = slot;
-                    btn.onclick = () => {
-                        selectedSlot = (selectedSlot === slot) ? null : slot;
-                        renderTuesdaySlots();
-                    };
-                    grid.appendChild(btn);
-                }
-            });
-
-            if (grid.children.length === 0) {
-                grid.innerHTML = '<span style="font-size:0.9rem; color:#a3988e; grid-column: 1/-1; text-align:center; padding: 20px;">All Tuesday slots are fully booked!</span>';
-            }
-        }
-
-        function renderMyBookings() {
-            const container = document.getElementById('myBookingsList');
-            if (userBookings.length === 0) {
-                container.innerHTML = '<span style="font-size: 0.85rem; color: #777; font-style: italic;">No slots booked yet.</span>';
-                return;
-            }
-
+        function renderSlots() {
+            const container = document.getElementById('slotsContainer');
             container.innerHTML = '';
-            userBookings.forEach((itemObj, index) => {
-                const item = document.createElement('div');
-                item.className = 'booked-item';
-                item.innerHTML = `
-                    <span><strong>${itemObj.name}</strong> • Tuesday (${itemObj.slot})</span>
-                    <button type="button" class="cancel-slot-btn" onclick="cancelSlot(${index})">Cancel</button>
-                `;
-                container.appendChild(item);
+            slotsData.forEach(slot => {
+                const btn = document.createElement('button');
+                btn.className = `slot-btn ${userReservedSlot === slot.id ? 'selected' : ''}`;
+                btn.textContent = slot.time;
+                if(slot.booked && userReservedSlot !== slot.id) {
+                    btn.style.opacity = '0.4';
+                    btn.style.cursor = 'not-allowed';
+                    btn.disabled = true;
+                    btn.textContent += ' (Taken)';
+                } else {
+                    btn.onclick = () => toggleSlotBooking(slot.id);
+                }
+                container.appendChild(btn);
             });
+            renderMyBooking();
         }
 
-        document.getElementById('confirmBookingBtn').addEventListener('click', () => {
-            const performerNameInput = document.getElementById('bookingPerformerName');
-            const performerName = performerNameInput.value.trim();
-
-            if (!performerName) {
-                alert('Please enter your Performer / Poet Name before confirming.');
-                performerNameInput.focus();
-                return;
+        function toggleSlotBooking(id) {
+            if(userReservedSlot === id) {
+                // unbook
+                const slot = slotsData.find(s => s.id === id);
+                slot.booked = false;
+                userReservedSlot = null;
+            } else {
+                if(userReservedSlot !== null) {
+                    // free previous
+                    const prev = slotsData.find(s => s.id === userReservedSlot);
+                    if(prev) prev.booked = false;
+                }
+                const slot = slotsData.find(s => s.id === id);
+                slot.booked = true;
+                userReservedSlot = id;
             }
+            renderSlots();
+        }
 
-            if (!selectedSlot) {
-                alert('Please select an available 15-minute slot first.');
-                return;
+        function renderMyBooking() {
+            const display = document.getElementById('myBookedSlotDisplay');
+            if(userReservedSlot === null) {
+                display.innerHTML = `<p style="color: #8c8278; font-style: italic;">No slot currently reserved.</p>`;
+            } else {
+                const slot = slotsData.find(s => s.id === userReservedSlot);
+                display.innerHTML = `
+                    <div class="booked-item">
+                        <span>Tuesday Open Mic Slot: <strong>${slot.time}</strong></span>
+                        <button class="cancel-slot-btn" onclick="toggleSlotBooking(${slot.id})">Cancel Slot</button>
+                    </div>
+                `;
             }
+        }
 
-            const bookingData = { slot: selectedSlot, name: performerName };
-            bookedSlots.push(bookingData);
-            userBookings.push(bookingData);
-            
-            selectedSlot = null;
-            performerNameInput.value = '';
-
-            renderTuesdaySlots();
-            renderMyBookings();
-            alert('Slot successfully reserved for Tuesday!');
-        });
-
-        window.cancelSlot = function(index) {
-            const removed = userBookings.splice(index, 1)[0];
-            bookedSlots = bookedSlots.filter(b => b.slot !== removed.slot);
-            
-            renderTuesdaySlots();
-            renderMyBookings();
-        };
-
-        renderTuesdaySlots();
-
-        // --- POEMS & MONTHLY POLL DATA SYNCHRONIZATION ---
-        let versesData = [
-            { id: 1, title: "Midnight in the Cellar", author: "Amy Rose", votes: 14 }
+        // --- POETS DATA ---
+        const poetsData = [
+            { name: "Evelyn Vance", style: "Melancholic Spoken Word", bio: "Regular host at The Click, exploring themes of Northern industrial decay, ghost towns, and late-night coffee.", link: "evelynvancepoet.com", avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" },
+            { name: "Marcus Thorne", style: "Beat & Rhythmic Verse", bio: "Known for rapid-fire delivery and jazz-infused cadence. Author of 'Asphalt & Amber'.", link: "marcusthorne.substack.com", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80" },
+            { name: "Siobhan O'Leary", style: "Surrealist & Folk", bio: "Weaves haunting imagery of local folklore, mist over Lancashire moors, and forgotten kitchen tables.", link: "siobhanpoetry.co.uk", avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80" }
         ];
 
-        function renderMonthlyPoll() {
-            const pollList = document.getElementById('pollOptionsList');
-            pollList.innerHTML = '';
-
-            // Calculate total votes
-            let totalVotes = versesData.reduce((sum, v) => sum + v.votes, 0);
-            if (totalVotes === 0) totalVotes = 1; // prevent division by zero
-
-            versesData.forEach(verse => {
-                let percentage = Math.round((verse.votes / totalVotes) * 100);
-                
-                const row = document.createElement('div');
-                row.className = 'poll-option-row';
-                row.innerHTML = `
-                    <div class="poll-option-info">
-                        <span class="poll-option-title">${verse.title} <span style="font-size:0.75rem; color:#8c8278; font-weight:normal;">by ${verse.author}</span></span>
-                        <span class="poll-vote-count" id="pollCount-${verse.id}">${verse.votes} votes (${percentage}%)</span>
-                    </div>
-                    <div class="poll-bar-container">
-                        <div class="poll-bar-fill" id="pollBar-${verse.id}" style="width: ${percentage}%;"></div>
-                    </div>
-                    <div class="poll-action-row">
-                        <span style="font-size:0.75rem; color:#b8ada1; font-style:italic;">Pinned Verse</span>
-                        <button type="button" class="poll-cast-btn" onclick="voteVerse(${verse.id})">Vote for this</button>
+        function renderPoets() {
+            const grid = document.getElementById('poetsGrid');
+            grid.innerHTML = '';
+            poetsData.forEach(p => {
+                grid.innerHTML += `
+                    <div class="poet-card">
+                        <img src="${p.avatar}" alt="${p.name}" class="poet-avatar">
+                        <h3 class="poet-name">${p.name}</h3>
+                        <span class="poet-style">${p.style}</span>
+                        <p class="poet-bio">${p.bio}</p>
+                        <a href="#" class="poet-link">https://${p.link}</a>
                     </div>
                 `;
-                pollList.appendChild(row);
             });
         }
 
-        window.voteVerse = function(id) {
-            const target = versesData.find(v => v.id === id);
-            if (target) {
-                target.votes += 1;
-                
-                // Update verse card count display if present
-                const cardCount = document.getElementById(`voteCount-${id}`);
-                if (cardCount) {
-                    cardCount.textContent = `${target.votes} votes`;
-                }
+        // --- GALLERY DATA ---
+        const galleryData = [
+            { caption: "Candlelight flicker during the Autumn Showcase.", meta: "The Cellar Basement • October", image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80" },
+            { caption: "Open floor mic night packed to the stone walls.", meta: "Tuesday Session • November", image: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=600&q=80" },
+            { caption: "Typewriters, notebooks, and midnight drafts.", meta: "Workshop Special • December", image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80" }
+        ];
 
-                renderMonthlyPoll();
+        function renderGallery() {
+            const grid = document.getElementById('galleryGrid');
+            grid.innerHTML = '';
+            galleryData.forEach(g => {
+                grid.innerHTML += `
+                    <div class="media-card">
+                        <img src="${g.image}" alt="Archive image" class="media-frame">
+                        <div class="media-caption">${g.caption}</div>
+                        <span class="media-meta">${g.meta}</span>
+                    </div>
+                `;
+            });
+        }
+
+        // --- POLL DATA ---
+        let pollData = [
+            { id: 1, title: "Echoes of the Industrial Past", votes: 14 },
+            { id: 2, title: "Midnight Walkers & Streetlamps", votes: 22 },
+            { id: 3, title: "Unsent Letters to Nowhere", votes: 9 }
+        ];
+        let hasVotedPoll = false;
+
+        function renderPoll() {
+            const totalVotes = pollData.reduce((sum, item) => sum + item.votes, 0);
+            const list = document.getElementById('pollOptionsList');
+            list.innerHTML = '';
+            pollData.forEach(opt => {
+                const percent = totalVotes > 0 ? Math.round((opt.votes / totalVotes) * 100) : 0;
+                list.innerHTML += `
+                    <div class="poll-option-row">
+                        <div class="poll-option-info">
+                            <span class="poll-option-title">${opt.title}</span>
+                            <span class="poll-vote-count">${opt.votes} votes (${percent}%)</span>
+                        </div>
+                        <div class="poll-bar-container">
+                            <div class="poll-bar-fill" style="width: ${percent}%;"></div>
+                        </div>
+                        <div class="poll-action-row">
+                            <span style="font-size: 0.75rem; color: #8c8278;">Theme Concept</span>
+                            <button class="poll-cast-btn" onclick="castPollVote(${opt.id})" ${hasVotedPoll ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>Vote</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function castPollVote(id) {
+            if(hasVotedPoll) return;
+            const opt = pollData.find(o => o.id === id);
+            if(opt) {
+                opt.votes++;
+                hasVotedPoll = true;
+                renderPoll();
             }
-        };
+        }
 
-        // Initialize Poll on load
-        renderMonthlyPoll();
+        // --- POEMS BOARD DATA ---
+        let poemsList = [
+            { id: 1, title: "The Wallgate Train", author: "Arthur Pendelton", body: "Iron rails cutting through the grey,\nSmoke lifting into the fading day.\nWe sit down in the cellar stone,\nWhere no heavy heart is quite alone.", votes: 12 },
+            { id: 2, title: "Amber Bulb", author: "Evelyn Vance", body: "Hanging low above the wooden mic,\nShedding light on verses we all like.\nClick the rhythm, snap the phrase,\nLost inside these underground days.", votes: 19 }
+        ];
 
-        // Dynamic Form Submissions (Poets, Media, Poems, Forums)
-        document.getElementById('poetForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('poetName').value;
-            const style = document.getElementById('poetStyle').value;
-            const bio = document.getElementById('poetBioText').value;
-            const pic = document.getElementById('poetPic').value || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80';
-            const link = document.getElementById('poetLink').value;
+        function renderPoems() {
+            const feed = document.getElementById('poemsFeed');
+            feed.innerHTML = '';
+            poemsList.forEach(p => {
+                feed.innerHTML += `
+                    <div class="poem-card">
+                        <div class="poem-title">${p.title}</div>
+                        <div class="poem-author">Pinned by ${p.author}</div>
+                        <div class="poem-body">${p.body}</div>
+                        <div class="poem-vote-footer">
+                            <button class="vote-btn" onclick="votePoem(${p.id})">Applaud Verse</button>
+                            <span class="vote-count">Applause: ${p.votes}</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
 
-            const grid = document.getElementById('poetsGrid');
-            const card = document.createElement('article');
-            card.className = 'poet-card';
-            card.innerHTML = `
-                <img src="${pic}" alt="${name}" class="poet-avatar">
-                <h3 class="poet-name">${name}</h3>
-                <span class="poet-style">${style}</span>
-                <p class="poet-bio">${bio}</p>
-                <a href="${link.startsWith('http') ? link : '#'}" target="_blank" class="poet-link">${link}</a>
-            `;
-            grid.prepend(card);
-            this.reset();
-            alert('Poet profile added successfully.');
-        });
+        function votePoem(id) {
+            const poem = poemsList.find(p => p.id === id);
+            if(poem) {
+                poem.votes++;
+                renderPoems();
+            }
+        }
 
         document.getElementById('poemForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const title = document.getElementById('poemTitle').value;
-            const author = document.getElementById('poemAuthor').value;
-            const content = document.getElementById('poemContent').value;
-            const newId = Date.now();
+            const title = document.getElementById('poemTitleInput').value;
+            const author = document.getElementById('poemAuthorInput').value;
+            const body = document.getElementById('poemBodyInput').value;
 
-            // Push to dataset
-            versesData.push({ id: newId, title: title, author: author, votes: 1 });
+            poemsList.unshift({
+                id: Date.now(),
+                title,
+                author,
+                body,
+                votes: 1
+            });
 
-            const feed = document.getElementById('poemsFeed');
-            const article = document.createElement('article');
-            article.className = 'poem-card';
-            article.setAttribute('data-id', newId);
-            article.innerHTML = `
-                <h3 class="poem-title">${title}</h3>
-                <div class="poem-author">by ${author}</div>
-                <p class="poem-body">${content}</p>
-                <div class="poem-vote-footer">
-                    <button type="button" class="vote-btn" onclick="voteVerse(${newId})">❤️ Applaud / Vote</button>
-                    <span class="vote-count" id="voteCount-${newId}">1 votes</span>
-                </div>
-            `;
-            feed.prepend(article);
-            
-            renderMonthlyPoll();
             this.reset();
-            alert('Your verse has been pinned to the wall & added to the monthly poll!');
+            renderPoems();
         });
+
+        // --- FORUM DATA ---
+        let forumThreads = [
+            {
+                id: 1,
+                title: "Tips for overcoming stage fright at the open mic?",
+                category: "Craft",
+                author: "Sam_W",
+                body: "First time stepping up to the mic this coming Tuesday. Any advice on keeping the hands from shaking while holding the notebook?",
+                replies: [
+                    { author: "Evelyn Vance", text: "Don't fight the shake, everyone in the cellar is rooting for you. Focus on the amber bulb in the corner." }
+                ]
+            },
+            {
+                id: 2,
+                title: "Looking for collaborative acoustic guitar accompaniment",
+                category: "Events",
+                author: "Rory_Music",
+                body: "I write ambient folk verses and would love to pair up with a guitarist for an upcoming feature set.",
+                replies: []
+            }
+        ];
+
+        function renderForum() {
+            const list = document.getElementById('forumList');
+            list.innerHTML = '';
+            forumThreads.forEach(t => {
+                let repliesHtml = '';
+                t.replies.forEach(r => {
+                    repliesHtml += `
+                        <div class="reply-item">
+                            <div class="reply-author">${r.author}</div>
+                            <div>${r.text}</div>
+                        </div>
+                    `;
+                });
+
+                list.innerHTML += `
+                    <div class="forum-thread">
+                        <div class="thread-header">
+                            <span class="thread-category">${t.category}</span>
+                            <span class="thread-author">Started by ${t.author}</span>
+                        </div>
+                        <div class="thread-title">${t.title}</div>
+                        <div class="thread-body">${t.body}</div>
+                        
+                        <div class="replies-container">
+                            ${repliesHtml.length > 0 ? repliesHtml : '<div style="font-size:0.8rem; color:#8c8278; font-style:italic;">No replies yet. Be the first to answer below.</div>'}
+                        </div>
+
+                        <form class="reply-form" onsubmit="addReply(event, ${t.id})">
+                            <input type="text" placeholder="Add a reply..." required id="replyText-${t.id}">
+                            <input type="text" placeholder="Your name" required id="replyAuthor-${t.id}" style="max-width: 130px;">
+                            <button type="submit">Reply</button>
+                        </form>
+                    </div>
+                `;
+            });
+        }
 
         document.getElementById('threadForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const title = document.getElementById('threadTitle').value;
-            const category = document.getElementById('threadCategory').value;
-            const author = document.getElementById('threadAuthor').value;
-            const content = document.getElementById('threadContent').value;
+            const title = document.getElementById('threadTitleInput').value;
+            const category = document.getElementById('threadCategoryInput').value;
+            const author = document.getElementById('threadAuthorInput').value;
+            const body = document.getElementById('threadBodyInput').value;
 
-            const list = document.getElementById('forumList');
-            const thread = document.createElement('article');
-            thread.className = 'forum-thread';
-            thread.innerHTML = `
-                <div class="thread-header">
-                    <span class="thread-category">${category}</span>
-                    <span class="thread-author">Posted by ${author}</span>
-                </div>
-                <h3 class="thread-title">${title}</h3>
-                <p class="thread-body">${content}</p>
-                <div class="replies-container"></div>
-                <form class="reply-form" onsubmit="addReply(event, this)">
-                    <input type="text" placeholder="Write a reply..." required>
-                    <button type="submit">Reply</button>
-                </form>
-            `;
-            list.prepend(thread);
+            forumThreads.unshift({
+                id: Date.now(),
+                title,
+                category,
+                author,
+                body,
+                replies: []
+            });
+
             this.reset();
-            alert('Discussion thread opened.');
+            renderForum();
         });
 
-        window.addReply = function(event, form) {
-            event.preventDefault();
-            const input = form.querySelector('input');
-            const replyText = input.value;
-            if (!replyText.trim()) return;
-
-            const container = form.previousElementSibling;
-            const replyItem = document.createElement('div');
-            replyItem.className = 'reply-item';
-            replyItem.innerHTML = `
-                <span class="reply-author">Anonymous Cellar Guest:</span>
-                <p>${replyText}</p>
-            `;
-            container.appendChild(replyItem);
-            input.value = '';
+        function addReply(e, threadId) {
+            e.preventDefault();
+            const textInput = document.getElementById(`replyText-${threadId}`);
+            const authorInput = document.getElementById(`replyAuthor-${threadId}`);
+            
+            const thread = forumThreads.find(t => t.id === threadId);
+            if(thread) {
+                thread.replies.push({
+                    author: authorInput.value,
+                    text: textInput.value
+                });
+                renderForum();
+            }
         }
+
+        // Initial setup calls
+        renderSlots();
+        renderPoets();
+        renderGallery();
+        renderPoll();
+        renderPoems();
+        renderForum();
     </script>
 </body>
 </html>
